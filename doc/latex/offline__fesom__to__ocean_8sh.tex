@@ -1,0 +1,124 @@
+\hypertarget{offline__fesom__to__ocean_8sh}{\section{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh File Reference}
+\label{offline__fesom__to__ocean_8sh}\index{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}}
+}
+
+
+Makes {\ttfamily P\-I\-C\-O} input from {\ttfamily F\-E\-S\-O\-M} output!  
+
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{offline__fesom__to__ocean_8sh_a48904c1e77d4ea153b3dfd1415a66bd7}{\hyperlink{offline__fesom__to__ocean_8sh_a48904c1e77d4ea153b3dfd1415a66bd7}{get\-\_\-config} ()}\label{offline__fesom__to__ocean_8sh_a48904c1e77d4ea153b3dfd1415a66bd7}
+
+\begin{DoxyCompactList}\small\item\em Reads configuration from a file. \end{DoxyCompactList}\item 
+\hyperlink{offline__fesom__to__ocean_8sh_aeba27589bbabd426576fd8831b83c1a2}{extract\-\_\-fesom\-\_\-data} ()
+\begin{DoxyCompactList}\small\item\em Gets relevant {\ttfamily F\-E\-S\-O\-M} data from a experiment folder. \end{DoxyCompactList}\item 
+\hyperlink{offline__fesom__to__ocean_8sh_a9663aadce0f09d76b2b69367ae37cfc9}{get\-\_\-ten\-\_\-years} ()
+\begin{DoxyCompactList}\small\item\em extracts ten year chunks \end{DoxyCompactList}\item 
+\hyperlink{offline__fesom__to__ocean_8sh_ad37dfa80b64b7ee439bed835e274659a}{round\-\_\-up} ()
+\begin{DoxyCompactList}\small\item\em Rounds up to the nearest 10, 100, 1000. \end{DoxyCompactList}\item 
+\hyperlink{offline__fesom__to__ocean_8sh_a940c582c9f5c41215cc3e11963b4b7c5}{fesom\-\_\-scalar\-\_\-to\-\_\-\-Lat\-Lon} ()
+\begin{DoxyCompactList}\small\item\em Runs the python program fesom\-\_\-scalar\-\_\-to\-\_\-\-Lat\-Lon. \end{DoxyCompactList}\item 
+\hyperlink{offline__fesom__to__ocean_8sh_acb3dbe1b2a4e45284979655cd9adc4a0}{runme} ()
+\begin{DoxyCompactList}\small\item\em Submits this script to the sbatch queue, reading the configuration from offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-config. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{offline__fesom__to__ocean_8sh_abdb139102b7606f92acf9f11b865754e}{Exported String {\bfseries F\-E\-S\-O\-M\-\_\-\-F\-I\-L\-E} = fesom\-\_\-temperature\-\_\-salinity.\-nc}\label{offline__fesom__to__ocean_8sh_abdb139102b7606f92acf9f11b865754e}
+
+\item 
+\hypertarget{offline__fesom__to__ocean_8sh_a7c3de05184cb8bff2817610ee06c79f5}{Exported String {\bfseries F\-E\-S\-O\-M\-\_\-\-C\-H\-U\-N\-K\-\_\-\-F\-I\-L\-E} = \char`\"{}\$\{F\-E\-S\-O\-M\-\_\-\-F\-I\-L\-E\%.$\ast$\}\char`\"{}\-\_\-\char`\"{}\$\{start\-\_\-year\}\char`\"{}-\/\char`\"{}\$\{end\-\_\-year\}\char`\"{}.nc}\label{offline__fesom__to__ocean_8sh_a7c3de05184cb8bff2817610ee06c79f5}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Makes {\ttfamily P\-I\-C\-O} input from {\ttfamily F\-E\-S\-O\-M} output! This script sets up a S\-L\-U\-R\-M job which is able to generate a {\ttfamily P\-I\-S\-M} capable input for the {\ttfamily P\-I\-C\-O} ocean component from a {\ttfamily F\-E\-S\-O\-M} output
+
+Elements of the script can be used seperately, you just need to source the file and call the functions that you might need.
+
+\begin{DoxyAuthor}{Author}
+Dr. Paul Gierz 
+
+A\-W\-I Bremerhaven 
+\end{DoxyAuthor}
+
+
+\subsection{Function Documentation}
+\hypertarget{offline__fesom__to__ocean_8sh_aeba27589bbabd426576fd8831b83c1a2}{\index{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}!extract\-\_\-fesom\-\_\-data@{extract\-\_\-fesom\-\_\-data}}
+\index{extract\-\_\-fesom\-\_\-data@{extract\-\_\-fesom\-\_\-data}!offline_fesom_to_ocean.sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}}
+\subsubsection[{extract\-\_\-fesom\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}extract\-\_\-fesom\-\_\-data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{offline__fesom__to__ocean_8sh_aeba27589bbabd426576fd8831b83c1a2}
+
+
+Gets relevant {\ttfamily F\-E\-S\-O\-M} data from a experiment folder. 
+
+Gets the {\ttfamily F\-E\-S\-O\-M} output and combines it to a common file. We assume that there are variables set\-:
+\begin{DoxyEnumerate}
+\item F\-E\-S\-O\-M\-\_\-\-O\-U\-T\-P\-U\-T\-\_\-\-D\-I\-R (required)
+\item T\-E\-M\-P\-\_\-\-V\-A\-R\-N\-A\-M\-E (required if E\-S\-M\-\_\-\-S\-T\-Y\-L\-E is not yes)
+\item S\-A\-L\-T\-\_\-\-V\-A\-R\-N\-A\-M\-E (required if E\-S\-M\-\_\-\-S\-T\-Y\-L\-E is not yes)
+\item E\-S\-M\-\_\-\-S\-T\-Y\-L\-E (default \char`\"{}yes\char`\"{}) 
+\end{DoxyEnumerate}\hypertarget{offline__fesom__to__ocean_8sh_a940c582c9f5c41215cc3e11963b4b7c5}{\index{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}!fesom\-\_\-scalar\-\_\-to\-\_\-\-Lat\-Lon@{fesom\-\_\-scalar\-\_\-to\-\_\-\-Lat\-Lon}}
+\index{fesom\-\_\-scalar\-\_\-to\-\_\-\-Lat\-Lon@{fesom\-\_\-scalar\-\_\-to\-\_\-\-Lat\-Lon}!offline_fesom_to_ocean.sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}}
+\subsubsection[{fesom\-\_\-scalar\-\_\-to\-\_\-\-Lat\-Lon}]{\setlength{\rightskip}{0pt plus 5cm}fesom\-\_\-scalar\-\_\-to\-\_\-\-Lat\-Lon (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{offline__fesom__to__ocean_8sh_a940c582c9f5c41215cc3e11963b4b7c5}
+
+
+Runs the python program fesom\-\_\-scalar\-\_\-to\-\_\-\-Lat\-Lon. 
+
+Arguments\-:
+\begin{DoxyItemize}
+\item \$1\-: F\-E\-S\-O\-M\-\_\-\-F\-I\-L\-E
+\item \$2\-: F\-E\-S\-O\-M\-\_\-\-V\-A\-R\-I\-A\-B\-L\-E
+\item \$3\-: F\-E\-S\-O\-M\-\_\-\-M\-E\-S\-H (defaults to C\-O\-R\-E2)
+\item \$4\-: F\-E\-S\-O\-M\-\_\-\-O\-U\-T\-P\-U\-T (defaults to a modifed version of \$\{F\-E\-S\-O\-M\-\_\-\-F\-I\-L\-E\} 
+\end{DoxyItemize}\hypertarget{offline__fesom__to__ocean_8sh_a9663aadce0f09d76b2b69367ae37cfc9}{\index{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}!get\-\_\-ten\-\_\-years@{get\-\_\-ten\-\_\-years}}
+\index{get\-\_\-ten\-\_\-years@{get\-\_\-ten\-\_\-years}!offline_fesom_to_ocean.sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}}
+\subsubsection[{get\-\_\-ten\-\_\-years}]{\setlength{\rightskip}{0pt plus 5cm}get\-\_\-ten\-\_\-years (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{offline__fesom__to__ocean_8sh_a9663aadce0f09d76b2b69367ae37cfc9}
+
+
+extracts ten year chunks 
+
+Arguments\-:
+\begin{DoxyItemize}
+\item \$1\-: start\-\_\-year -- beginning of the ten year chunk you want to extract 
+\end{DoxyItemize}\hypertarget{offline__fesom__to__ocean_8sh_ad37dfa80b64b7ee439bed835e274659a}{\index{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}!round\-\_\-up@{round\-\_\-up}}
+\index{round\-\_\-up@{round\-\_\-up}!offline_fesom_to_ocean.sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}}
+\subsubsection[{round\-\_\-up}]{\setlength{\rightskip}{0pt plus 5cm}round\-\_\-up (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{offline__fesom__to__ocean_8sh_ad37dfa80b64b7ee439bed835e274659a}
+
+
+Rounds up to the nearest 10, 100, 1000. 
+
+function to round up to 1-\/ the nearest integer on a given scale (10, 100, 1000 are allowed scales) the result is given back using echo, and can be derived by means of command substitution (e.\-g. result=\$(round\-\_\-up 2871 100))
+
+\begin{DoxyAuthor}{Author}
+Dr. Christian Stepanek 
+\end{DoxyAuthor}
+\hypertarget{offline__fesom__to__ocean_8sh_acb3dbe1b2a4e45284979655cd9adc4a0}{\index{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}!runme@{runme}}
+\index{runme@{runme}!offline_fesom_to_ocean.sh@{offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-sh}}
+\subsubsection[{runme}]{\setlength{\rightskip}{0pt plus 5cm}runme (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{offline__fesom__to__ocean_8sh_acb3dbe1b2a4e45284979655cd9adc4a0}
+
+
+Submits this script to the sbatch queue, reading the configuration from offline\-\_\-fesom\-\_\-to\-\_\-ocean.\-config. 
+
+Since we do not necessarily know how big the array needs to be that we want to submit, a small amount of preprocesing needs to happen on the login node. Then, we submit the array job. 
